@@ -1,0 +1,22 @@
+{
+  "users": [
+    {
+      "id": "0b0018bd-e41e-4b4f-994c-9abad82f6a08",
+      "email": "vitor.kloy08@gmail.com",
+      "name": "Vitor Kloy de Oliveira",
+      "password": "123456"
+    },
+    {
+      "id": "f6dcbd6b-96ae-4323-9a93-5ffee7635ca1",
+      "email": "vit0r020308@gmail.com",
+      "name": "Vitor Kloy de Oliveira",
+      "password": "123456789"
+    },
+    {
+      "id": "61f18186-9766-4d2c-8490-bad0730cd854",
+      "email": "adm@mail.com",
+      "name": "adm",
+      "password": "adm123"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "products": [
+    {
+      "id": "87591892-10ed-4a4f-bd8c-f808f09daa79",
+      "name": "Filé de Frango",
+      "description": "bom",
+      "price": 15,
+      "image": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&h=400&fit=crop"
+    },
+    {
+      "id": "acf695e3-13ce-4397-9724-045680cb09a1",
+      "name": "dfgh",
+      "description": "dfh",
+      "price": 1335,
+      "image": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&h=400&fit=crop"
+    }
+  ]
+}
