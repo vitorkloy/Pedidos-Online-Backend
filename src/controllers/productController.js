@@ -1,30 +1,27 @@
 import * as service from "../services/productService.js";
 
-export function listProducts(req, res) {
-  res.json(service.getAllProducts());
+export async function listProducts(req, res) {
+  const products = await service.getAllProducts(); // Adicionado await
+  res.json(products);
 }
 
-export function addProduct(req, res) {
-  const product = service.createProduct(req.body);
+export async function addProduct(req, res) {
+  const product = await service.createProduct(req.body); // Adicionado await
   res.status(201).json(product);
 }
 
-export function editProduct(req, res) {
-  const updated = service.updateProduct(req.params.id, req.body);
-
-  if (!updated) {
-    return res.status(404).json({ error: "Produto não encontrado" });
+export async function editProduct(req, res) {
+  try {
+    const updated = await service.updateProduct(req.params.id, req.body);
+    if (!updated) return res.status(404).json({ error: "Produto não encontrado" });
+    res.json(updated);
+  } catch (err) {
+    res.status(400).json({ error: "ID inválido ou erro na atualização" });
   }
-
-  res.json(updated);
 }
 
-export function removeProduct(req, res) {
-  const deleted = service.deleteProduct(req.params.id);
-
-  if (!deleted) {
-    return res.status(404).json({ error: "Produto não encontrado" });
-  }
-
+export async function removeProduct(req, res) {
+  const deleted = await service.deleteProduct(req.params.id);
+  if (!deleted) return res.status(404).json({ error: "Produto não encontrado" });
   res.status(204).end();
 }

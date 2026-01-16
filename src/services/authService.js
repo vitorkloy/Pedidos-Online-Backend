@@ -1,66 +1,31 @@
-import fs from "fs";
-import path from "path";
-import { v4 as uuid } from "uuid";
+import { User } from "../models/User.js";
 
-const filePath = path.resolve("src/data/users.json");
+let currentUser = null; // Mantendo sua lógica de estado simples
 
-// usuário “logado” fake (em memória)
-let currentUser = null;
+export async function signup({ email, password, name }) {
+  const existingUser = await User.findOne({ email });
+  if (existingUser) throw new Error("Este email já está cadastrado");
 
-function readFile() {
-  const data = fs.readFileSync(filePath, "utf-8");
-  return JSON.parse(data);
-}
+  const newUser = new User({ email, password, name });
+  await newUser.save();
 
-function writeFile(data) {
-  fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
-}
-
-function sanitizeUser(user) {
-  const { password, ...safeUser } = user;
-  return safeUser;
-}
-
-export function signup({ email, password, name }) {
-  const data = readFile();
-
-  if (data.users.find(u => u.email === email)) {
-    throw new Error("Este email já está cadastrado");
-  }
-
-  const newUser = {
-    id: uuid(),
-    email,
-    name,
-    password
-  };
-
-  data.users.push(newUser);
-  writeFile(data);
-
-  currentUser = sanitizeUser(newUser);
+  const safeUser = newUser.toObject();
+  delete safeUser.password;
+  
+  currentUser = safeUser;
   return currentUser;
 }
 
-export function login({ email, password }) {
-  const data = readFile();
+export async function login({ email, password }) {
+  const user = await User.findOne({ email, password });
+  if (!user) throw new Error("Email ou senha incorretos");
 
-  const user = data.users.find(
-    u => u.email === email && u.password === password
-  );
+  const safeUser = user.toObject();
+  delete safeUser.password;
 
-  if (!user) {
-    throw new Error("Email ou senha incorretos");
-  }
-
-  currentUser = sanitizeUser(user);
+  currentUser = safeUser;
   return currentUser;
 }
 
-export function logout() {
-  currentUser = null;
-}
-
-export function getCurrentUser() {
-  return currentUser;
-}
+export function logout() { currentUser = null; }
+export function getCurrentUser() { return currentUser; }

@@ -1,5 +1,11 @@
+import "dotenv/config";
 import app from "./app.js";
+import { connectDB } from "./config/db.js";
 
-app.listen(3333, () => {
-  console.log("Servidor rodando em http://localhost:3333");
+const PORT = 3000;
+
+connectDB().then(() => {
+  app.listen(PORT, () => {
+    console.log(`Server rodando na porta ${PORT}`);
+  });
 });
